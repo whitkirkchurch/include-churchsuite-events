@@ -12,7 +12,7 @@ Gets a list of events from a ChurchSuite site, and includes it as part of a post
 
 == Description ==
 
-Gets a list of events from a ChurchSuite site, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles etc.
+Gets a list of events from a ChurchSuite site, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles and so-on. Also embeds a JSON-LD representation of the event, which search engines like Google can use to [do interesting things](https://developers.google.com/search/docs/data-types/event).
 
 == Installation ==
 
@@ -25,11 +25,11 @@ To include a list of events, add the `[churchsuite_events]` shortcode to a page.
 
 You _must_ include the `site` parameter, giving your ChurchSuite account ID. For example, for the ChurchSuite site "canterbury.churchsuite.co.uk" you would use:
 
-```[cs_events site="canterbury"]```
+```[churchsuite_events site="canterbury"]```
 
 You can also use any parameters listed under the *Calendar JSON feed* section of the [ChurchSuite API embed documentation](https://github.com/ChurchSuite/churchsuite-api/blob/master/modules/embed.md#calendar-json-feed). For example:
 
-```[cs_events site="canterbury" category="2" featured="1"]```
+```[churchsuite_events site="canterbury" category="2" featured="1"]```
 
 will only include events from category '2', which are featured.
 
