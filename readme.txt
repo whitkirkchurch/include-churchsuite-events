@@ -2,8 +2,8 @@
 Contributors: jacksonj04
 Tags: churchsuite, events
 Requires at least: 4.7
-Tested up to: 4.7
-Stable tag: 1.0
+Tested up to: 5.4.1
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://whitkirkchurch.org.uk/donate
@@ -12,7 +12,9 @@ Gets a list of events from a ChurchSuite site, and includes it as part of a post
 
 == Description ==
 
-Gets a list of events from a ChurchSuite site, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles and so-on. Also embeds a JSON-LD representation of the event, which search engines like Google can use to [do interesting things](https://developers.google.com/search/docs/data-types/event).
+Gets a list of events from a ChurchSuite site, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles and so-on.
+
+Also embeds a JSON-LD representation of the event, which search engines like Google can use to [do interesting things](https://developers.google.com/search/docs/data-types/event).
 
 == Installation ==
 
@@ -35,9 +37,12 @@ will only include events from category '2', which are featured.
 
 There are some additional parameters you can pass:
 
-* `link_titles`: If set to `1`, will turn the title of each event in the list into a link to the ChurchSuite event page.
-* `show_years`: If set to `always`, will always show the year in each date. If set to `different`, will only show years in dates where they are not the current year.
-* `show_end_times`: If set to `1`, display the time an event is scheduled to end.
+* `link_titles`: Turn the title of each event in the list into a link to the ChurchSuite event page. Defaults to false.
+* `show_date`: Display the dates of events. Defaults to true.
+* `show_years`: If set to `always`, will always show the year in each date. If set to `different`, will only show years in dates where they are not the current year. Defaults to false.
+* `show_end_times`: Display the time an event is scheduled to end. Defaults to false.
+* `show_locations`: Display details of an event's location. Defaults to false.
+* `show_descriptions`: Display and event's description if given. Defaults to true.
 
 == Changelog ==
 
