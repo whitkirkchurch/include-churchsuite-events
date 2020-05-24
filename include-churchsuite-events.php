@@ -3,7 +3,7 @@
 Plugin Name: Include ChurchSuite Events
 Plugin URI: https://github.com/whitkirkchurch/include-churchsuite-events
 Description: Gets a list of events from a ChurchSuite site, and includes it as part of a post or page.
-Version: 1.0
+Version: 1.1
 Author: St Mary's Church, Whitkirk
 Author URI: https://whitkirkchurch.org.uk
 License:     GPL-2.0+
@@ -35,11 +35,32 @@ function cs_events_shortcode($atts = [])
         $show_years = false;
     }
 
+    if (isset($atts['show_date'])) {
+        $show_date = $atts['show_date'];
+        unset($atts['show_date']);
+    } else {
+        $show_date = true;
+    }
+
     if (isset($atts['show_end_times'])) {
         $show_end_times = (bool) $atts['show_end_times'];
         unset($atts['show_end_times']);
     } else {
         $show_end_times = false;
+    }
+
+    if (isset($atts['show_locations'])) {
+        $show_locations = (bool) $atts['show_locations'];
+        unset($atts['show_locations']);
+    } else {
+        $show_locations = false;
+    }
+
+    if (isset($atts['show_descriptions'])) {
+        $show_descriptions = (bool) $atts['show_descriptions'];
+        unset($atts['show_descriptions']);
+    } else {
+        $show_descriptions = true;
     }
 
     try {
@@ -58,6 +79,8 @@ function cs_events_shortcode($atts = [])
         $output = '<div class="cs_events--dateblock">';
         $last_date = null;
 
+        date_default_timezone_set('Europe/London');
+
         // This is where most of the magic happens
         foreach ($data as $event) {
             // Build the event URL, we use this a couple of times
@@ -74,21 +97,47 @@ function cs_events_shortcode($atts = [])
                 'name' => $event->name,
                 'url' => $event_url,
                 'description' => $event->description,
-                'location' => [
+                'startDate' => date(
+                    DATE_ISO8601,
+                    strtotime($event->datetime_start)
+                ),
+                'endDate' => date(
+                    DATE_ISO8601,
+                    strtotime($event->datetime_end)
+                ),
+            ];
+
+            // Tack on the image, if we have one
+            if (isset($event->images->lg)) {
+                $json_ld['image'] = $event->images->lg->url;
+            }
+
+            // Set attendance mode
+            if ($event->location->type == 'online') {
+                $json_ld['eventAttendanceMode'] =
+                    'https://schema.org/OnlineEventAttendanceMode';
+                $json_ld['location'] = [
+                    '@type' => 'VirtualLocation',
+                    'url' => $event->location->url,
+                ];
+            } else {
+                $json_ld['eventAttendanceMode'] =
+                    'https://schema.org/OfflineEventAttendanceMode';
+                $json_ld['location'] = [
                     '@type' => 'Place',
                     'name' => $event->location->name,
                     'address' => [
                         '@type' => 'PostalAddress',
                         'postalCode' => $event->location->address,
                     ],
-                ],
-                'startDate' => $event->datetime_start,
-                'endDate' => $event->datetime_end,
-            ];
+                ];
+            }
 
-            // Tack on the image, if we have one
-            if (isset($event->images->lg)) {
-                $json_ld['image'] = $event->images->lg->url;
+            // Flag cancelled events
+            if ($event->status == 'cancelled') {
+                $json_ld['eventStatus'] = 'https://schema.org/EventCancelled';
+            } else {
+                $json_ld['eventStatus'] = 'https://schema.org/EventScheduled';
             }
 
             // And output it!
@@ -103,12 +152,11 @@ function cs_events_shortcode($atts = [])
             $date = date('Y-m-d', $start_time);
 
             // Make sure we only show the date once per day
-            if ($date != $last_date) {
+            if ($date != $last_date && $show_date) {
                 $last_date = $date;
                 $output .= '</div><div class="cs_events--dateblock">';
                 $output .=
-                    '<h3 class="cs_events--date">' .
-                    date('l j<\s\up>S</\s\up> F', $start_time);
+                    '<h3 class="cs_events--date">' . date('l j F', $start_time);
 
                 if (
                     $show_years and
@@ -142,7 +190,12 @@ function cs_events_shortcode($atts = [])
                 }
             }
 
+            // Output the event title
             $output .= '<h4 class="cs_events--event--title">';
+
+            if ($event->status == 'cancelled') {
+                $output .= '<span style="text-decoration:line-through">';
+            }
 
             if ($link_titles == true) {
                 $output .= '<a href="' . $event_url . '">';
@@ -150,11 +203,12 @@ function cs_events_shortcode($atts = [])
 
             $output .=
                 '<span class="cs_events--event--time">' .
-                date('g:ia', $start_time);
+                date('g.i a', $start_time);
 
             if ($show_end_times) {
                 $output .=
-                    '&mdash;' . date('g:ia', strtotime($event->datetime_end));
+                    ' &ndash; ' .
+                    date('g.i a', strtotime($event->datetime_end));
             }
 
             $output .=
@@ -166,9 +220,25 @@ function cs_events_shortcode($atts = [])
                 $output .= '</a>';
             }
 
+            if ($event->status == 'cancelled') {
+                $output .= '</span>';
+            }
+
             $output .= '</h4>';
 
-            if ($event->description != '') {
+            if ($event->status == 'cancelled') {
+                $output .=
+                    '<p><strong>This event has been cancelled.</strong></p>';
+            }
+
+            if ($show_locations && $event->location->name) {
+                $output .=
+                    '<p><i>' .
+                    htmlspecialchars_decode($event->location->name) .
+                    '</i></p>';
+            }
+
+            if ($show_descriptions and $event->description != '') {
                 $output .= htmlspecialchars_decode($event->description);
             }
 
