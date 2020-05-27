@@ -195,6 +195,8 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '<span style="text-decoration:line-through">';
+            } else if ($event->status == 'pending') {
+                $output .= '<span style="font-style: italic">';
             }
 
             if ($link_titles == true) {
@@ -222,6 +224,8 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '</span>';
+            } else if ($event->status == 'pending') {
+                $output .= '?</span>';
             }
 
             $output .= '</h4>';
