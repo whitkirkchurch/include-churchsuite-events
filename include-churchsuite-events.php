@@ -12,11 +12,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 function cs_events_shortcode($atts = [])
 {
-    if (isset($atts['site'])) {
-        $site_id = $atts['site'];
+    if (isset($atts['account'])) {
+        $account = $atts['account'];
         $base_url =
-            'https://' . $site_id . '.churchsuite.co.uk/embed/calendar/json';
-        unset($atts['site']);
+            'https://' . $account . '.churchsuite.co.uk/embed/calendar/json';
+        unset($atts['account']);
     } else {
         return 'Missing "site" parameter!';
     }
@@ -86,7 +86,7 @@ function cs_events_shortcode($atts = [])
             // Build the event URL, we use this a couple of times
             $event_url =
                 'https://' .
-                $site_id .
+                $account .
                 '.churchsuite.co.uk/events/' .
                 $event->identifier;
 
@@ -176,7 +176,7 @@ function cs_events_shortcode($atts = [])
                 if ($link_titles == true) {
                     $output .=
                         '<a href="https://' .
-                        $site_id .
+                        $account .
                         '.churchsuite.co.uk/events/' .
                         $event->identifier .
                         '">';
