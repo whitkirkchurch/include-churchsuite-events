@@ -49,3 +49,14 @@ There are some additional parameters you can pass:
 = 1.0 =
 
 * Added a shortcode to embed a list of events from ChurchSuite into a page or post.
+
+= 1.1 =
+
+* Adds `show_date` option
+* Adds `show_location` option
+* Adds `show_description` option
+* Fixes some timezone uncertainty
+* Fixes dates not being correctly presented as ISO 8601
+* Adds image to JSON-LD representation where known.
+* Adds support for `eventAttendanceMode` and `eventStatus` parameters in JSON-LD.
+* Updates date and time format to match preferred style
