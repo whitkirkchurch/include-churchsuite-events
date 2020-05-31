@@ -8,11 +8,11 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://whitkirkchurch.org.uk/donate
 
-Gets a list of events from a ChurchSuite site, and includes it as part of a post or page.
+Gets a list of events from a ChurchSuite account, and includes it as part of a post or page.
 
 == Description ==
 
-Gets a list of events from a ChurchSuite site, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles and so-on.
+Gets a list of events from a ChurchSuite account, and includes it as part of a post or page. Passing of various parameters control date ranges, categories, linking of titles and so-on.
 
 Also embeds a JSON-LD representation of the event, which search engines like Google can use to [do interesting things](https://developers.google.com/search/docs/data-types/event).
 
@@ -25,13 +25,13 @@ Also embeds a JSON-LD representation of the event, which search engines like Goo
 
 To include a list of events, add the `[churchsuite_events]` shortcode to a page.
 
-You _must_ include the `site` parameter, giving your ChurchSuite account ID. For example, for the ChurchSuite site "canterbury.churchsuite.co.uk" you would use:
+You _must_ include the `account` parameter, giving your ChurchSuite account ID. For example, for the ChurchSuite account "canterbury.churchsuite.co.uk" you would use:
 
-```[churchsuite_events site="canterbury"]```
+```[churchsuite_events account="canterbury"]```
 
 You can also use any parameters listed under the *Calendar JSON feed* section of the [ChurchSuite API embed documentation](https://github.com/ChurchSuite/churchsuite-api/blob/master/modules/embed.md#calendar-json-feed). For example:
 
-```[churchsuite_events site="canterbury" category="2" featured="1"]```
+```[churchsuite_events account="canterbury" category="2" featured="1"]```
 
 will only include events from category '2', which are featured.
 
