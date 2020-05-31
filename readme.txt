@@ -60,3 +60,8 @@ There are some additional parameters you can pass:
 * Adds image to JSON-LD representation where known.
 * Adds support for `eventAttendanceMode` and `eventStatus` parameters in JSON-LD.
 * Updates date and time format to match preferred style
+
+= 1.2 =
+
+* Rename `site` to `account` to be more consistent with how ChurchSuite refers to accounts
+* Add support for styling pending events
