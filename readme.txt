@@ -47,4 +47,5 @@ There are some additional parameters you can pass:
 == Changelog ==
 
 = 1.0 =
+
 * Added a shortcode to embed a list of events from ChurchSuite into a page or post.
