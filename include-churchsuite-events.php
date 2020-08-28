@@ -10,6 +10,13 @@ License:     GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 */
 
+function limit($iterable, $limit) {
+    foreach ($iterable as $key => $value) {
+        if (!$limit--) break;
+        yield $key => $value;
+    }
+}
+
 function cs_events_shortcode($atts = [])
 {
     if (isset($atts['account'])) {
@@ -63,6 +70,13 @@ function cs_events_shortcode($atts = [])
         $show_descriptions = true;
     }
 
+    if (isset($atts['limit_to_count'])) {
+        $limit_to_count = (int) $atts['limit_to_count'];
+        unset($atts['limit_to_count']);
+    } else {
+        $limit_to_count = true;
+    }
+
     try {
         $params = [];
 
@@ -80,8 +94,14 @@ function cs_events_shortcode($atts = [])
 
         date_default_timezone_set('Europe/London');
 
+        if ($limit_to_count) {
+          $data_to_loop = limit($data, $limit_to_count);
+        } else {
+          $data_to_loop = $data;
+        }
+
         // This is where most of the magic happens
-        foreach ($data as $event) {
+        foreach ($data_to_loop as $event) {
             // Build the event URL, we use this a couple of times
             $event_url =
                 'https://' .
