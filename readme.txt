@@ -3,7 +3,7 @@ Contributors: jacksonj04
 Tags: churchsuite, events
 Requires at least: 4.7
 Tested up to: 5.4.1
-Stable tag: v1.2
+Stable tag: v1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://whitkirkchurch.org.uk/donate
@@ -65,3 +65,8 @@ There are some additional parameters you can pass:
 
 * Rename `site` to `account` to be more consistent with how ChurchSuite refers to accounts
 * Add support for styling pending events
+
+= 1.3 =
+
+* Add `limit_to_count` to restrict the number of results
+* Fixed bug where an empty date block would appear at the top of the list
