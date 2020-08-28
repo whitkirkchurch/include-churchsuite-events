@@ -3,20 +3,27 @@
 Plugin Name: Include ChurchSuite Events
 Plugin URI: https://github.com/whitkirkchurch/include-churchsuite-events
 Description: Gets a list of events from a ChurchSuite site, and includes it as part of a post or page.
-Version: 1.1
+Version: 1.2
 Author: St Mary's Church, Whitkirk
 Author URI: https://whitkirkchurch.org.uk
 License:     GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 */
 
+function limit($iterable, $limit) {
+    foreach ($iterable as $key => $value) {
+        if (!$limit--) break;
+        yield $key => $value;
+    }
+}
+
 function cs_events_shortcode($atts = [])
 {
-    if (isset($atts['account'])) {
-        $account = $atts['account'];
+    if (isset($atts['site'])) {
+        $site_id = $atts['site'];
         $base_url =
-            'https://' . $account . '.churchsuite.co.uk/embed/calendar/json';
-        unset($atts['account']);
+            'https://' . $site_id . '.churchsuite.co.uk/embed/calendar/json';
+        unset($atts['site']);
     } else {
         return 'Missing "site" parameter!';
     }
@@ -63,6 +70,13 @@ function cs_events_shortcode($atts = [])
         $show_descriptions = true;
     }
 
+    if (isset($atts['limit_to_count'])) {
+        $limit_to_count = (int) $atts['limit_to_count'];
+        unset($atts['limit_to_count']);
+    } else {
+        $limit_to_count = true;
+    }
+
     try {
         $params = [];
 
@@ -76,17 +90,22 @@ function cs_events_shortcode($atts = [])
         $json = file_get_contents($query_url);
         $data = json_decode($json);
 
-        $output = '<div class="cs_events--dateblock">';
         $last_date = null;
 
         date_default_timezone_set('Europe/London');
 
+        if ($limit_to_count) {
+          $data_to_loop = limit($data, $limit_to_count);
+        } else {
+          $data_to_loop = $data;
+        }
+
         // This is where most of the magic happens
-        foreach ($data as $event) {
+        foreach ($data_to_loop as $event) {
             // Build the event URL, we use this a couple of times
             $event_url =
                 'https://' .
-                $account .
+                $site_id .
                 '.churchsuite.co.uk/events/' .
                 $event->identifier;
 
@@ -153,8 +172,12 @@ function cs_events_shortcode($atts = [])
 
             // Make sure we only show the date once per day
             if ($date != $last_date && $show_date) {
-                $last_date = $date;
+              if ($last_date == null) {
+                $output .= '<div class="cs_events--dateblock">';
+              } else {
                 $output .= '</div><div class="cs_events--dateblock">';
+              }
+                $last_date = $date;
                 $output .=
                     '<h3 class="cs_events--date">' . date('l j F', $start_time);
 
@@ -176,7 +199,7 @@ function cs_events_shortcode($atts = [])
                 if ($link_titles == true) {
                     $output .=
                         '<a href="https://' .
-                        $account .
+                        $site_id .
                         '.churchsuite.co.uk/events/' .
                         $event->identifier .
                         '">';
@@ -195,8 +218,6 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '<span style="text-decoration:line-through">';
-            } else if ($event->status == 'pending') {
-                $output .= '<span style="font-style: italic">';
             }
 
             if ($link_titles == true) {
@@ -224,8 +245,6 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '</span>';
-            } else if ($event->status == 'pending') {
-                $output .= '?</span>';
             }
 
             $output .= '</h4>';
