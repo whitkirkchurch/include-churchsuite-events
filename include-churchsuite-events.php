@@ -10,9 +10,12 @@ License:     GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 */
 
-function limit($iterable, $limit) {
+function limit($iterable, $limit)
+{
     foreach ($iterable as $key => $value) {
-        if (!$limit--) break;
+        if (!$limit--) {
+            break;
+        }
         yield $key => $value;
     }
 }
@@ -95,9 +98,9 @@ function cs_events_shortcode($atts = [])
         date_default_timezone_set('Europe/London');
 
         if ($limit_to_count) {
-          $data_to_loop = limit($data, $limit_to_count);
+            $data_to_loop = limit($data, $limit_to_count);
         } else {
-          $data_to_loop = $data;
+            $data_to_loop = $data;
         }
 
         // This is where most of the magic happens
@@ -172,11 +175,11 @@ function cs_events_shortcode($atts = [])
 
             // Make sure we only show the date once per day
             if ($date != $last_date && $show_date) {
-              if ($last_date == null) {
-                $output .= '<div class="cs_events--dateblock">';
-              } else {
-                $output .= '</div><div class="cs_events--dateblock">';
-              }
+                if ($last_date == null) {
+                    $output .= '<div class="cs_events--dateblock">';
+                } else {
+                    $output .= '</div><div class="cs_events--dateblock">';
+                }
                 $last_date = $date;
                 $output .=
                     '<h3 class="cs_events--date">' . date('l j F', $start_time);
@@ -218,7 +221,7 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '<span style="text-decoration:line-through">';
-            } else if ($event->status == 'pending') {
+            } elseif ($event->status == 'pending') {
                 $output .= '<span style="font-style: italic">';
             }
 
@@ -247,7 +250,7 @@ function cs_events_shortcode($atts = [])
 
             if ($event->status == 'cancelled') {
                 $output .= '</span>';
-            } else if ($event->status == 'pending') {
+            } elseif ($event->status == 'pending') {
                 $output .= '?</span>';
             }
 
