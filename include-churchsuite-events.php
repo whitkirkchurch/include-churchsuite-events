@@ -76,7 +76,6 @@ function cs_events_shortcode($atts = [])
         $json = file_get_contents($query_url);
         $data = json_decode($json);
 
-        $output = '<div class="cs_events--dateblock">';
         $last_date = null;
 
         date_default_timezone_set('Europe/London');
@@ -153,8 +152,12 @@ function cs_events_shortcode($atts = [])
 
             // Make sure we only show the date once per day
             if ($date != $last_date && $show_date) {
-                $last_date = $date;
+              if ($last_date == null) {
+                $output .= '<div class="cs_events--dateblock">';
+              } else {
                 $output .= '</div><div class="cs_events--dateblock">';
+              }
+                $last_date = $date;
                 $output .=
                     '<h3 class="cs_events--date">' . date('l j F', $start_time);
 
