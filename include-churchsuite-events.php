@@ -3,7 +3,7 @@
 Plugin Name: Include ChurchSuite Events
 Plugin URI: https://github.com/whitkirkchurch/include-churchsuite-events
 Description: Gets a list of events from a ChurchSuite site, and includes it as part of a post or page.
-Version: 1.2
+Version: 1.3
 Author: St Mary's Church, Whitkirk
 Author URI: https://whitkirkchurch.org.uk
 License:     GPL-2.0+
