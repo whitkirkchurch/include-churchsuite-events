@@ -2,8 +2,8 @@
 /*
 Plugin Name: Include ChurchSuite Events
 Plugin URI: https://github.com/whitkirkchurch/include-churchsuite-events
-Description: Gets a list of events from a ChurchSuite site, and includes it as part of a post or page.
-Version: 1.2.1
+Description: Gets a list of events from a ChurchSuite account, and includes it as part of a post or page.
+Version: 1.2.2
 Author: St Mary's Church, Whitkirk
 Author URI: https://whitkirkchurch.org.uk
 License:     GPL-2.0+
@@ -28,7 +28,7 @@ function cs_events_shortcode($atts = [])
             'https://' . $account . '.churchsuite.co.uk/embed/calendar/json';
         unset($atts['account']);
     } else {
-        return 'Missing "site" parameter!';
+        return 'Missing "account" parameter!';
     }
 
     if (isset($atts['link_titles'])) {
