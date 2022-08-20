@@ -2,8 +2,8 @@
 Contributors: jacksonj04
 Tags: churchsuite, events
 Requires at least: 4.7
-Tested up to: 5.4.1
-Stable tag: v1.2.2
+Tested up to: 6.0.1
+Stable tag: v1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://whitkirkchurch.org.uk/donate
@@ -43,6 +43,7 @@ There are some additional parameters you can pass:
 * `show_end_times`: Display the time an event is scheduled to end. Defaults to false.
 * `show_locations`: Display details of an event's location. Defaults to false.
 * `show_descriptions`: Display and event's description if given. Defaults to true.
+* `exclude_categories`: A comma-delimited list of category IDs to exclude from the output. Defaults to an empty array.
 
 == Changelog ==
 
@@ -74,3 +75,7 @@ There are some additional parameters you can pass:
 = 1.2.2 =
 
 * Updated "missing site parameter" error message, to "missing account parameter"
+
+= 1.3.0 =
+
+* Added `exclude_categories` parameter.
