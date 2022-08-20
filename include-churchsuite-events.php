@@ -3,7 +3,7 @@
 Plugin Name: Include ChurchSuite Events
 Plugin URI: https://github.com/whitkirkchurch/include-churchsuite-events
 Description: Gets a list of events from a ChurchSuite account, and includes it as part of a post or page.
-Version: 1.2.2
+Version: 1.3.0
 Author: St Mary's Church, Whitkirk
 Author URI: https://whitkirkchurch.org.uk
 License:     GPL-2.0+
@@ -80,6 +80,13 @@ function cs_events_shortcode($atts = [])
         $limit_to_count = true;
     }
 
+    if (isset($atts['exclude_categories'])) {
+        $exclude_categories = explode(',', $atts['exclude_categories']);
+        unset($atts['exclude_categories']);
+    } else {
+        $exclude_categories = [];
+    }
+
     try {
         $params = [];
 
@@ -105,6 +112,12 @@ function cs_events_shortcode($atts = [])
 
         // This is where most of the magic happens
         foreach ($data_to_loop as $event) {
+
+            // If the event's category is in the exclude list, just skip the loop for it
+            if (in_array($event->category->id, $exclude_categories)) {
+                continue;
+            }
+            
             // Build the event URL, we use this a couple of times
             $event_url =
                 'https://' .
