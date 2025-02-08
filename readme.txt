@@ -42,7 +42,8 @@ There are some additional parameters you can pass:
 * `show_years`: If set to `always`, will always show the year in each date. If set to `different`, will only show years in dates where they are not the current year. Defaults to false.
 * `show_end_times`: Display the time an event is scheduled to end. Defaults to false.
 * `show_locations`: Display details of an event's location. Defaults to false.
-* `show_descriptions`: Display and event's description if given. Defaults to true.
+* `show_descriptions`: Display an event's description if present. Defaults to true.
+* `show_images`: Display an event's image if present. Defaults to true.
 * `exclude_categories`: A comma-delimited list of category IDs to exclude from the output. Defaults to an empty array.
 
 == Changelog ==
@@ -79,3 +80,7 @@ There are some additional parameters you can pass:
 = 1.3.0 =
 
 * Added `exclude_categories` parameter.
+
+= Unreleased =
+
+* Added `display_images` parameter.

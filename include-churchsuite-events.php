@@ -73,6 +73,13 @@ function cs_events_shortcode($atts = [])
         $show_descriptions = true;
     }
 
+    if (isset($atts['show_images'])) {
+        $show_images = (bool) $atts['show_images'];
+        unset($atts['show_images']);
+    } else {
+        $show_images = true;
+    }
+
     if (isset($atts['limit_to_count'])) {
         $limit_to_count = (int) $atts['limit_to_count'];
         unset($atts['limit_to_count']);
@@ -211,7 +218,7 @@ function cs_events_shortcode($atts = [])
 
             $output .= '<div class="cs_events--event">';
 
-            if (isset($event->images->thumb) && $event->description != '') {
+            if ($show_images && isset($event->images->thumb) && $event->description != '') {
                 if ($link_titles == true) {
                     $output .=
                         '<a href="https://' .
