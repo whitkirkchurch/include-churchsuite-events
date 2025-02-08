@@ -2,8 +2,8 @@
 Contributors: jacksonj04
 Tags: churchsuite, events
 Requires at least: 4.7
-Tested up to: 6.0.1
-Stable tag: v1.3.0
+Tested up to: 6.7.1
+Stable tag: v1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://whitkirkchurch.org.uk/donate
@@ -81,6 +81,6 @@ There are some additional parameters you can pass:
 
 * Added `exclude_categories` parameter.
 
-= Unreleased =
+= 1.4.0 =
 
 * Added `display_images` parameter.
